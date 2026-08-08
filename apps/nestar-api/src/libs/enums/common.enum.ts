@@ -1,0 +1,19 @@
+export enum Message {
+	SOMETHING_WENT_WRONG = 'Something went wrong',
+	NO_DATA_FOUND = 'No data is found!',
+	CREATE_FAILED = 'Create is failed!',
+	UPDATE_FAILED = 'Update is failed!',
+	REMOVE_FAILED = 'Remove is failed!',
+	UPLOAD_FAILED = 'Upload is failed!',
+	BAD_REQUEST = 'Bad Request!',
+
+	USED_NICK_PHONE = 'Your inserting already nick or phone!',
+	NO_MEMBER_NICK = 'No member with that member nick!',
+	BLOCKED_USER = 'You have been blocked!',
+	WRONG_PASSWORD = ' Wrong Password!',
+	NOT_AUTHECENTED = 'You are not authecented Plaece login first!',
+	TOKEN_CREATION_FAILED = 'Token creation error!',
+	ONLY_SPECIFIC_ROLES_ALLOWED = 'Not Allowed Request!',
+	PROVIDE_ALLOWED_FORMAT = 'Please provide jpg, jpeg or png images!',
+	SELF_SUBSCRIPTION_DENIED = 'Self subscription is denied!',
+}
