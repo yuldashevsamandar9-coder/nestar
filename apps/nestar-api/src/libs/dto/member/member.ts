@@ -14,7 +14,7 @@ export class Member {
 	memberStatus: MemberStatus;
 
 	@Field(() => MemberAuthType)
-	memberAuthTypepe: MemberAuthType;
+	memberAuthType: MemberAuthType;
 
 	@Field(() => String)
 	memberPhone: string;
@@ -38,6 +38,9 @@ export class Member {
 
 	@Field(() => Int)
 	memberArticles: number;
+
+	@Field(() => Int)
+	memberProperty: number;
 
 	@Field(() => Int)
 	memberFollowers: number;
