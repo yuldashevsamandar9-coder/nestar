@@ -40,7 +40,7 @@ export class Member {
 	memberArticles: number;
 
 	@Field(() => Int)
-	memberProperty: number;
+	memberProperties: number;
 
 	@Field(() => Int)
 	memberFollowers: number;
