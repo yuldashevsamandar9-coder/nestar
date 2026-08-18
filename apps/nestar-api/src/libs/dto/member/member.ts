@@ -37,10 +37,10 @@ export class Member {
 	memberDesc?: string;
 
 	@Field(() => Int)
-	memberArticles: number;
+	memberProperties: number;
 
 	@Field(() => Int)
-	memberProperties: number;
+	memberArticles: number;
 
 	@Field(() => Int)
 	memberFollowers: number;
