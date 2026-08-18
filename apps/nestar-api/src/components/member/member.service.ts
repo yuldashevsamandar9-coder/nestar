@@ -19,7 +19,7 @@ export class MemberService {
 			return result;
 		} catch (err) {
 			console.log('Eroorr Service.model:', err);
-			throw new BadRequestException('Signup failed!');
+			throw new BadRequestException(Message.USED_MEMBER_NICK_OR_PHONE);
 		}
 	}
 
