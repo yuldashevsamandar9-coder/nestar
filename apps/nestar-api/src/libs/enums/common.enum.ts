@@ -17,4 +17,6 @@ export enum Message {
 	ONLY_SPECIFIC_ROLES_ALLOWED = 'Not Allowed Request!',
 	PROVIDE_ALLOWED_FORMAT = 'Please provide jpg, jpeg or png images!',
 	SELF_SUBSCRIPTION_DENIED = 'Self subscription is denied!',
+	TOKEN_NOT_EXIST = 'TOKEN_NOT_EXIST',
+	NOT_AUTHENTICATED = 'NOT_AUTHENTICATED',
 }
