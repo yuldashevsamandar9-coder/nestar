@@ -14,6 +14,9 @@ import { ViewGroup } from '../../libs/enums/view.enum';
 
 @Injectable()
 export class MemberService {
+	memberStatsEditor(arg0: { _id: any; targetKey: string; modifier: number }) {
+		throw new Error('Method not implemented.');
+	}
 	constructor(
 		@InjectModel('Member') private readonly memberModel: Model<Member>,
 		private authService: AuthService,
