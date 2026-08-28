@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { PropertyInput } from '../../libs/dto/property/property.input';
 import { Property } from '../../libs/dto/property/property';
 import { Message } from '../../libs/enums/common.enum';
@@ -17,7 +17,11 @@ export class PropertyService {
 		try {
 			const result = await this.propertyModel.create(input);
 			// increase memberProperties
-			await this.memberService.memberStatsEditor({ _id: result.memberId, targetKey: 'memberProperties', modifier: 1 });
+			await this.memberService.memberStatsEditor({
+				_id: result.memberId as unknown as ObjectId,
+				targetKey: 'memberProperties',
+				modifier: 1,
+			});
 			return result;
 		} catch (err) {
 			console.log('Error, Service.model:', (err as Error).message);
