@@ -39,7 +39,7 @@ export class MemberService {
 		const { memberNick, memberPassword } = input;
 		const response: Member | null = await this.memberModel
 			.findOne({ memberNick: memberNick })
-			.select('+memberPassword')
+			.select('+memberPassword') // majburiy chaqirish
 			.exec();
 
 		if (!response || response.memberStatus === MemberStatus.DELETE) {
