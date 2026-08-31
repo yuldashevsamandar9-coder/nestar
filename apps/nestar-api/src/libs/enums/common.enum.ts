@@ -21,6 +21,7 @@ export enum Message {
 	SELF_SUBSCRIPTION_DENIED = 'Self subscription is denied!',
 	TOKEN_NOT_EXIST = 'TOKEN_NOT_EXIST',
 	NOT_AUTHENTICATED = 'NOT_AUTHENTICATED',
+	NOT_ALLOWED_REQUEST = 'NOT_ALLOWED_REQUEST',
 }
 
 export enum Direction {
