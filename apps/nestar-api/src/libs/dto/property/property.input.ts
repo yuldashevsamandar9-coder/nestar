@@ -200,3 +200,40 @@ export class AgentPropertiesInquiry {
 	@Field(() => APISearch)
 	search: APISearch;
 }
+
+@InputType()
+class ALPISearch {
+	@IsOptional()
+	@Field(() => PropertyStatus, { nullable: true })
+	propertyStatus?: PropertyStatus | undefined;
+
+	@IsOptional()
+	@Field(() => PropertyLocation, { nullable: true })
+	propertyLocationList?: PropertyLocation[] | undefined;
+}
+
+@InputType()
+export class AllPropertiesInquiry {
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	page: number | undefined;
+
+	@IsNotEmpty()
+	@Min(1)
+	@Field(() => Int)
+	limit: number | undefined;
+
+	@IsOptional()
+	@IsIn(availeblePropertySorts)
+	@Field(() => String, { nullable: true })
+	sort?: string | undefined;
+
+	@IsOptional()
+	@Field(() => Direction, { nullable: true })
+	direction?: Direction | undefined;
+
+	@IsNotEmpty()
+	@Field(() => ALPISearch)
+	search: ALPISearch | undefined;
+}

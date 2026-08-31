@@ -1,7 +1,12 @@
 import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
-import { AgentPropertiesInquiry, PropertiesInquiry, PropertyInput } from '../../libs/dto/property/property.input';
+import mongoose, { Model, ObjectId } from 'mongoose';
+import {
+	AgentPropertiesInquiry,
+	AllPropertiesInquiry,
+	PropertiesInquiry,
+	PropertyInput,
+} from '../../libs/dto/property/property.input';
 import { Property } from '../../libs/dto/property/property';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { MemberService } from '../member/member.service';
@@ -194,5 +199,82 @@ export class PropertyService {
 		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
 		return result[0];
+	}
+
+	/**       ADMIN Define * */
+
+	public async getAllPropertiesByAdmin(input: AllPropertiesInquiry): Promise<Properties[]> {
+		const { propertyStatus, propertyLocationList } = input?.search ?? {};
+		const match: any = {};
+		const sort: any = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
+
+		if (propertyStatus) match.propertyStatus = propertyStatus;
+		if (propertyLocationList) match.propertyLocation = { $in: propertyLocationList };
+
+		const result = await this.propertyModel
+			.aggregate([
+				{ $match: match },
+				{ $sort: sort },
+				{
+					$facet: {
+						list: [
+							{ $skip: ((input?.page ?? 1) - 1) * (input?.limit ?? 10) },
+							{ $limit: input?.limit ?? 10 },
+							lookupMember,
+							{ $unwind: '$memberData' },
+						],
+						metaCounter: [{ $count: 'total' }],
+					},
+				},
+			])
+			.exec();
+
+		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+
+		const data = result[0];
+		const total = data.metaCounter[0]?.total ?? 0;
+
+		return {
+			...data,
+			metaCounter: { total },
+		};
+	}
+
+	public async updatePropertyByAdmin(input: PropertyUpdate): Promise<Property> {
+		let { propertyStatus, soldAt, deletedAt } = input;
+		const search: T = {
+			_id: input._id,
+			propertyStatus: PropertyStatus.ACTIVE,
+		};
+
+		if (propertyStatus === PropertyStatus.SOLD) soldAt = moment().toDate();
+		else if (propertyStatus === PropertyStatus.DELETE) deletedAt = moment().toDate();
+
+		const result = await this.propertyModel
+			.findOneAndUpdate(search, input, {
+				new: true,
+			})
+			.exec();
+		if (!result) throw new InternalServerErrorException(Message.UPDATE_FAILED);
+
+		if (soldAt || deletedAt) {
+			if (result.memberId) {
+				await this.memberService.memberStatsEditor({
+					_id: result.memberId as unknown as mongoose.ObjectId,
+					targetKey: 'memberProperties',
+					modifier: -1,
+				});
+			}
+		}
+
+		return result;
+	}
+
+	public async removePropertyByAdmin(propertyId: mongoose.ObjectId): Promise<Property> {
+		const search = { _id: propertyId, propertyStatus: PropertyStatus.DELETE };
+		const result = await this.propertyModel.findOneAndDelete(search).exec();
+		if (!result) throw new InternalServerErrorException(Message.REMOVE_FAILED);
+
+		return result;
 	}
 }
