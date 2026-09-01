@@ -15,5 +15,6 @@ import { MemberModule } from '../member/member.module';
 		MemberModule,
 	],
 	providers: [BoardArticleResolver, BoardArticleService],
+	exports: [BoardArticleModule],
 })
 export class BoardArticleModule {}
