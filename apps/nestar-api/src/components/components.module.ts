@@ -20,6 +20,5 @@ import { BoardArticleResolver } from './board-article/board-article.resolver';
 		ViewModule,
 		FollowModule,
 	],
-	providers: [],
 })
 export class ComponentsModule {}
