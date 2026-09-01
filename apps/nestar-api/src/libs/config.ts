@@ -11,6 +11,8 @@ export const availeblePropertySorts = [
 ];
 export const availableOptions = ['propertyBarter', 'propertyRent'];
 
+export const availebleBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
+
 /* IMAGE CONFIGURATION */
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';

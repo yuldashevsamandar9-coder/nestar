@@ -3,6 +3,7 @@ import { IsIn, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { ObjectId, Types } from 'mongoose';
 import { BoardArticleCategory, BoardArticleStatus } from '../../enums/board-article.enum';
 import { Direction } from '../../enums/common.enum';
+import { availebleBoardArticleSorts } from '../../config';
 
 @InputType()
 export class BoardArticleInput {
@@ -56,7 +57,7 @@ export class BoardArticlesInquiry {
 	limit: number;
 
 	@IsOptional()
-	@IsIn(['createdAt', 'updatedAt', 'articleLikes', 'articleViews'])
+	@IsIn([availebleBoardArticleSorts])
 	@Field(() => String, { nullable: true })
 	sort?: string;
 
@@ -93,7 +94,7 @@ export class AllBoardArticlesInquiry {
 	limit: number;
 
 	@IsOptional()
-	@IsIn(['createdAt', 'updatedAt', 'articleLikes', 'articleViews'])
+	@IsIn([availebleBoardArticleSorts])
 	@Field(() => String, { nullable: true })
 	sort?: string;
 
