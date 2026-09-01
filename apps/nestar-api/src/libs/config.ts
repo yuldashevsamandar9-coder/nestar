@@ -10,10 +10,8 @@ export const availeblePropertySorts = [
 	'propertyRank, propertyPrice',
 ];
 export const availableOptions = ['propertyBarter', 'propertyRent'];
-
 export const availebleBoardArticleSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
-
-export const availebleCommentSorts = ['createdAt', 'updatedAt', 'articleLikes', 'articleViews'];
+export const availebleCommentSorts = ['createdAt', 'updatedAt'];
 
 /* IMAGE CONFIGURATION */
 import { v4 as uuidv4 } from 'uuid';
