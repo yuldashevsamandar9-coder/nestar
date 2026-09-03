@@ -73,6 +73,17 @@ export class MemberResolver {
 		return await this.memberService.getAgents(memberId, input);
 	}
 
+	@UseGuards(AuthGuard)
+	@Mutation(() => Member)
+	public async likeTargetMember(
+		@Args('memberId') input: string,
+		@AuthMember('memberId') memberId: Types.ObjectId,
+	): Promise<Member> {
+		console.log('Muttation LikeTargetMember');
+		const likeRefId = shapeIntoMongoObjectId(input);
+		return await this.memberService.likeTargetMember(memberId, likeRefId);
+	}
+
 	/* Admin.      */
 
 	// Authorization
