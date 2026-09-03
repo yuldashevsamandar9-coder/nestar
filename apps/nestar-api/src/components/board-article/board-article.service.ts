@@ -72,11 +72,11 @@ export class BoardArticleService {
 	}
 
 	public async updateBoardArticle(memberId: Types.ObjectId, input: BoardArticleUpdate): Promise<BoardArticle> {
-		const { _id, articleStatus } = input;
+		const { _id, articleStatus } = input; // Descraction
 
 		const result = await this.boardArticleModel
 			.findOneAndUpdate({ _id: _id, memberId: memberId, articleStatus: BoardArticleStatus.ACTIVE }, input, {
-				new: true,
+				new: true, // Option
 			})
 			.exec();
 

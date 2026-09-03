@@ -25,7 +25,7 @@ import { T } from './libs/types/common';
 					message:
 						error?.extensions?.exception?.response?.message || error?.extensions?.response?.message || error?.message,
 				};
-				console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError);
+				console.log('GRAPHQL GLOBAL ERR:', graphQLFormattedError); // APIlardagi xatolarni ushlab beradi
 				return graphQLFormattedError;
 			},
 		}),
