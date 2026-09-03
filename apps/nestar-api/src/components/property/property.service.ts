@@ -21,6 +21,9 @@ import { PropertyUpdate } from '../../libs/dto/property/property.update';
 import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 import moment from 'moment';
 import { Properties } from '../../libs/dto/property/property';
+import { LikeInput } from '../../libs/dto/like/like.input';
+import { LikeGroup } from '../../libs/enums/like.enum';
+import { LikeService } from '../like/like.service';
 
 @Injectable()
 export class PropertyService {
@@ -28,6 +31,7 @@ export class PropertyService {
 		@InjectModel('Property') private readonly propertyModel: Model<Property>,
 		private memberService: MemberService,
 		private viewService: ViewService,
+		private likeService: LikeService,
 	) {}
 
 	public async createProperty(input: PropertyInput): Promise<Property> {
@@ -195,6 +199,26 @@ export class PropertyService {
 		if (!result.length) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
 
 		return result[0];
+	}
+
+	public async likeTargetProperty(memberId: Types.ObjectId, likeRefId: Types.ObjectId): Promise<Property> {
+		const target = await this.propertyModel.findOne({ _id: likeRefId, propertyStatus: PropertyStatus.ACTIVE }).exec();
+		if (!target) throw new InternalServerErrorException(Message.NO_DATA_FOUND);
+		const input: LikeInput = {
+			memberId: memberId,
+			likeRefId: likeRefId,
+			likeGroup: LikeGroup.PROPERTY,
+		};
+
+		// LIke Toggle oldin like bosgan bulsak databasedan malumot uchirib natijani -1 ga iuzgartirib beradi
+		const modifier: number = await this.likeService.toggleLike(input);
+		const result = await this.propertyStatsEditor({
+			_id: likeRefId as any,
+			targetKey: 'propertyLikes',
+			modifier: modifier,
+		});
+		if (!result) throw new InternalServerErrorException(Message.SOMETHING_WENT_WRONG);
+		return result;
 	}
 
 	/**       ADMIN Define * */
