@@ -37,8 +37,15 @@ export class FollowService {
 
 		return result as any;
 	}
-	registerSubscription(followerId: Types.ObjectId, followingId: Types.ObjectId) {
-		throw new Error('Method not implemented.');
+	public async registerSubscription(followerId: Types.ObjectId, followingId: Types.ObjectId): Promise<Follower> {
+		const input = {
+			followerId,
+			followingId,
+		};
+
+		const result = await this.followModel.create(input);
+
+		return result;
 	}
 
 	public async unsubscribe(followerId: Types.ObjectId, followingId: Types.ObjectId): Promise<Follower> {
