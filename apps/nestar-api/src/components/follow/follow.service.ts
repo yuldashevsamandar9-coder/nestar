@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import FollowSchema from '../../schemas/Follow.model';
 import { Follower, Followers, Following, Followings } from '../../libs/dto/follow/follow';
@@ -43,14 +43,15 @@ export class FollowService {
 		return result as any;
 	}
 	public async registerSubscription(followerId: Types.ObjectId, followingId: Types.ObjectId): Promise<Follower> {
-		const input = {
-			followerId,
-			followingId,
-		};
-
-		const result = await this.followModel.create(input);
-
-		return result;
+		try {
+			return await this.followModel.create({
+				followingId: followingId,
+				followerId: followerId,
+			});
+		} catch (err) {
+			console.log('Error, Service.model:', err instanceof Error ? err.message : err);
+			throw new BadRequestException(Message.CREATE_FAILED);
+		}
 	}
 
 	public async unsubscribe(followerId: Types.ObjectId, followingId: Types.ObjectId): Promise<Follower> {
