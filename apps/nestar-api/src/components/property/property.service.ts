@@ -18,7 +18,7 @@ import { StatisticModifier } from '../../libs/types/common';
 import { ViewInput } from '../../libs/dto/view/view.input';
 import { Types } from 'mongoose';
 import { PropertyUpdate } from '../../libs/dto/property/property.update';
-import { lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
+import { lookupAuthMemberLiked, lookupMember, shapeIntoMongoObjectId } from '../../libs/config';
 import moment from 'moment';
 import { Properties } from '../../libs/dto/property/property';
 import { LikeInput } from '../../libs/dto/like/like.input';
@@ -128,6 +128,7 @@ export class PropertyService {
 							{ $skip: (input.page - 1) * input.limit },
 							{ $limit: input.limit },
 							// meLiked
+							lookupAuthMemberLiked(memberId),
 							lookupMember,
 							{ $unwind: '$memberData' },
 						],
