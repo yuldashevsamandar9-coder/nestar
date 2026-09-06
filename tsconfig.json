@@ -1,5 +1,7 @@
 {
 	"compilerOptions": {
+		"rootDir": "./",
+		"ignoreDeprecations": "5.0",
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"resolvePackageJsonExports": true,
