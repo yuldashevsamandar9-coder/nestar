@@ -122,7 +122,8 @@ export class BoardArticleService {
 						// 3. Bir vaqtning o'zida 2 xil so'rovni parallel bajarish
 						list: [
 							{ $skip: (input.page - 1) * input.limit }, // Sahifalash: masalan 2-sahifa bo'lsa, birinchi 10 tasini o'tkazib yuborish
-							{ $limit: input.limit }, // Sahifadagi maqolalar sonini chegaralash (masalan, 10 ta)
+							{ $limit: input.limit },
+							lookupAuthMemberLiked(memberId), // Sahifadagi maqolalar sonini chegaralash (masalan, 10 ta)
 							lookupMember, // Maqola muallifi ma'lumotlarini 'members' kolleksiyasidan biriktirish ($lookup)
 							{
 								$unwind: '$memberData',
